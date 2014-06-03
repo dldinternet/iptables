@@ -26,6 +26,7 @@ TEMPLATE_PATH = "/etc/iptables.d"
 # Read in a file, processing includes as required.
 def read_iptables(file, table = :filter)
   file = File.join(TEMPLATE_PATH, file) unless File.dirname(file) =~ /iptables\.d/
+  @data[table][:rules].push "# #{file}"
   rule = File.readlines(file).map{ |line| line.chomp }
   rule.each do |line|
     if line =~ /^\s*include\s+(\S+)$/
