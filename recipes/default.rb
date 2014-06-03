@@ -48,5 +48,9 @@ when "ubuntu", "debian"
 end
 
 
-iptables_rule "all_established"
-iptables_rule "all_icmp"
+unless node[:iptables][:default_rules][:all_established].to_s.downcase.match(%r/^no|0|false|off|disabled$/)
+  iptables_rule "all_established"
+end
+unless node[:iptables][:default_rules][:all_icmp].to_s.downcase.match(%r/^no|0|false|off|disabled$/)
+  iptables_rule "all_icmp"
+end
